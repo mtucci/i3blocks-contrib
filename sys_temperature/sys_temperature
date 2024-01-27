@@ -1,0 +1,35 @@
+#!/bin/bash
+
+function get_temp {
+    echo "$(( $1 / 1000 ))°C"
+}
+
+function find_hwmon {
+    for i in /sys/class/hwmon/hwmon*/name; do
+        if [ "$(cat $i)" = "$1" ]; then
+            echo $(dirname $i)
+            return
+        fi
+    done
+}
+
+# If the first argument is equal to "-h" or "--help"
+# list all the possible sensors.
+if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
+    for i in /sys/class/hwmon/hwmon*/name; do
+        echo "SENSOR_CHIP=$(cat $i)"
+        for j in $(dirname $i)/temp*_input; do
+            echo "  SENSOR_NUM=$(basename $j | tr -cd '[0-9]'), temperature: $(get_temp $(cat $j))"
+        done
+    done
+    exit 0
+fi
+
+# If SENSOR_CHIP is not set, use the first sensor.
+if [ -z "$SENSOR_CHIP" ]; then
+    SENSOR_CHIP=$(cat /sys/class/hwmon/hwmon*/name | head -n 1)
+fi
+
+SENSOR_NUM=${SENSOR_NUM:-1}
+
+echo "$(get_temp $(cat $(find_hwmon $SENSOR_CHIP)/temp${SENSOR_NUM}_input))"
