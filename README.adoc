@@ -76,4 +76,6 @@ Check the link:https://github.com/vivien/i3blocks-contrib/blob/master/CONTRIBUTI
 
 NOTE: i3blocks-contrib REQUIRES i3blocks v1.5 or higher, since it uses i3blocks dynamic properties.
 
+On Debian, you can build i3blocks from source by following the instructions on link:https://github.com/barnumbirr/i3blocks-debian[https://github.com/barnumbirr/i3blocks-debian].
+
 Happy crafting!
