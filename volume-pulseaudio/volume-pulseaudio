@@ -141,14 +141,14 @@ function print_block {
 
     if [[ $USE_ALSA_NAME == 1 ]] ; then
         ALSA_NAME=$(pacmd list-sinks |\
-awk '/^\s*\*/{f=1}/^\s*index:/{f=0}f' |\
+awk '/\* /{f=1}/ports:/{f=0}f' |\
 grep "alsa.name\|alsa.mixer_name" |\
 head -n1 |\
 sed 's/.*= "\(.*\)".*/\1/')
         NAME=${ALSA_NAME:-$NAME}
     elif [[ $USE_DESCRIPTION == 1 ]] ; then
         DESCRIPTION=$(pacmd list-sinks |\
-awk '/^\s*\*/{f=1}/^\s*index:/{f=0}f' |\
+awk '/\* /{f=1}/ports:/{f=0}f' |\
 grep "device.description" |\
 head -n1 |\
 sed 's/.*= "\(.*\)".*/\1/')
