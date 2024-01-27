@@ -1,7 +1,7 @@
 #!/bin/bash
 
 function get_temp {
-    echo "$(( $1 / 1000 ))°C"
+    echo "$(( $1 / 1000 ))"
 }
 
 function find_hwmon {
@@ -31,5 +31,17 @@ if [ -z "$SENSOR_CHIP" ]; then
 fi
 
 SENSOR_NUM=${SENSOR_NUM:-1}
+T_WARN=${T_WARN:-70}
+T_CRIT=${T_CRIT:-90}
+COLOR_WARN=${COLOR_WARN:-"#FFCC00"}
+COLOR_CRIT=${COLOR_CRIT:-"#FF0000"}
 
-echo "$(get_temp $(cat $(find_hwmon $SENSOR_CHIP)/temp${SENSOR_NUM}_input))"
+temperature=$(get_temp $(cat $(find_hwmon $SENSOR_CHIP)/temp${SENSOR_NUM}_input))
+echo "$temperature°C" # short text
+echo "$temperature°C" # long text
+
+if [ "$temperature" -ge "$T_CRIT" ]; then
+    echo "$COLOR_CRIT"
+elif [ "$temperature" -ge "$T_WARN" ]; then
+    echo "$COLOR_WARN"
+fi
