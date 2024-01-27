@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+# Requires sqlite3
+
+if [ -z $DB ]
+then
+    echo "You need to set the DB variable to the full path of Thunderbird's calendar-data/local.sqlite"
+    exit 1
+fi
+
+DB=$(eval echo "$DB")
+
+get_next_event() {
+    cur_date="$(date +%s)000000"
+    sqlite3 "file:${DB}?immutable=1" "SELECT title,event_start,event_end FROM cal_events WHERE event_start > ${cur_date} ORDER BY event_start LIMIT 1"
+}
+
+IFS='|' read -ra event <<< "$(get_next_event)"
+
+title=${event[0]}
+date=$(date -d @${event[1]::-6} '+%a, %b %_d')
+event_start=$(date -d @${event[1]::-6} '+%H:%M')
+event_end=$(date -d @${event[2]::-6} '+%H:%M')
+echo "\"$title\" on $date ($event_start - $event_end)"

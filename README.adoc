@@ -43,9 +43,10 @@ This repository contains a set of scripts (a.k.a. *blocklets*) for link:https://
 | link:rofi-wttr[] | Current weather and click for weather forecast using rofi
 | link:shutdown_menu[] | Shutdown menu using rofi or zenity
 | link:systemctl[] | Startup and Shutdown system services
+| link:sys_temperature[] | Show system temperatures directly from /sys
 | link:tahoe-lafs[] | Show status of your tahoe-lafs grid
 | link:temperature[] | Show system temperatures using lm-sensors
-| link:sys_temperature[] | Show system temperatures directly from /sys
+| link:thunderbird-calendar[] | Show the next event from Thunderbird calendar
 | link:time[] | Show the current date/time and click to change timezones
 | link:ssid[] | Show the wifi SSID you are connected to (dep: iw, awk)
 | link:usb[] | Show connected usb storage device info
